@@ -1,0 +1,42 @@
+$date
+	Sat Jul 26 14:57:17 2025
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module adder32_tb $end
+$var wire 32 ! sum [31:0] $end
+$var reg 32 " a [31:0] $end
+$var reg 32 # b [31:0] $end
+$scope module uut $end
+$var wire 32 $ a [31:0] $end
+$var wire 32 % b [31:0] $end
+$var wire 32 & sum [31:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+b10 &
+b1 %
+b1 $
+b1 #
+b1 "
+b10 !
+$end
+#10000
+b0 !
+b0 &
+b11111111111111111111111111111111 "
+b11111111111111111111111111111111 $
+#20000
+b10000111011001010100001100100001 #
+b10000111011001010100001100100001 %
+b10011001100110011001100110011001 !
+b10011001100110011001100110011001 &
+b10010001101000101011001111000 "
+b10010001101000101011001111000 $
+#30000

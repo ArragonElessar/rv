@@ -1,0 +1,87 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Verilog: Run All (compile + sim + wave)",
+            "type": "shell",
+            "command": "python3",
+            "args": [
+                "run.py",
+                "--tb=${input:tbName}",
+                "--rtl=${input:rtlName}",
+                "--all"
+            ],
+            "group": "build",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Verilog: Compile + Simulate",
+            "type": "shell",
+            "command": "python3",
+            "args": [
+                "run.py",
+                "--tb=${input:tbName}",
+                "--rtl=${input:rtlName}",
+                "--run"
+            ],
+            "group": "build",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Verilog: Open GTKWave Only",
+            "type": "shell",
+            "command": "python3",
+            "args": [
+                "run.py",
+                "--tb=${input:tbName}",
+                "--rtl=${input:rtlName}",
+                "--wave"
+            ],
+            "group": "none",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "Verilog: Clean",
+            "type": "shell",
+            "command": "python3",
+            "args": [
+                "run.py",
+                "--tb=${input:tbName}",
+                "--rtl=${input:rtlName}",
+                "--clean"
+            ],
+            "group": "none",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            }
+        }
+    ],
+    "inputs": [
+        {
+            "id": "tbName",
+            "type": "promptString",
+            "description": "Enter testbench name (without .v)",
+            "default": "adder32_tb"
+        },
+        {
+            "id": "rtlName",
+            "type": "promptString",
+            "description": "Enter RTL module name (without .v)",
+            "default": "adder32"
+        }
+    ]
+}
