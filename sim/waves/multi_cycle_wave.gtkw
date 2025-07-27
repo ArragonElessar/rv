@@ -1,0 +1,27 @@
+[*]
+[*] GTKWave Analyzer v3.3.103 (w)1999-2019 BSI
+[*] Sat Jul 26 12:08:33 2025
+[*]
+[dumpfile] "/home/pranav/Projects/rv/sim/waves/multi_cycle_rv.vcd"
+[dumpfile_mtime] "Sat Jul 26 12:04:37 2025"
+[dumpfile_size] 4506
+[savefile] "/home/pranav/Projects/rv/sim/waves/multi_cycle_wave.gtkw"
+[timestart] 0
+[size] 2548 1347
+[pos] -1 -1
+*-14.000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] multi_cycle_rv_tb.
+[treeopen] multi_cycle_rv_tb.dut.
+[sst_width] 214
+[signals_width] 134
+[sst_expanded] 1
+[sst_vpaned_height] 415
+@28
+multi_cycle_rv_tb.clk
+multi_cycle_rv_tb.rst_n
+@22
+multi_cycle_rv_tb.dut.pc[31:0]
+@23
+multi_cycle_rv_tb.dut.pc_next[31:0]
+[pattern_trace] 1
+[pattern_trace] 0

@@ -2,6 +2,7 @@
 import argparse
 import subprocess
 from pathlib import Path
+import os
 
 # === Argument Parsing ===
 parser = argparse.ArgumentParser(
@@ -9,23 +10,37 @@ parser = argparse.ArgumentParser(
     formatter_class=argparse.RawTextHelpFormatter
 )
 
-parser.add_argument('--tb', help='Testbench name without .v (e.g., adder32_tb)', default='adder32_tb')
-parser.add_argument('--rtl', help='RTL module name without .v (e.g., adder32)', default=None)
+parser.add_argument('--tb', help='Testbench name without .v (e.g., adder32_tb)', default='basic/adder32_tb')
+parser.add_argument('--rtl', help='RTL module name without .v (e.g., adder32)', default='basic/adder32')
 parser.add_argument('--run', action='store_true', help='Compile and simulate')
 parser.add_argument('--wave', action='store_true', help='Open GTKWave')
 parser.add_argument('--all', action='store_true', help='Run compile, simulate, and open waveform')
 parser.add_argument('--clean', action='store_true', help='Clean compiled and waveform files')
+parser.add_argument('--add_program_binary', help="Pull a binary from the windows file system to sw/src & sw/bin")
 
 args = parser.parse_args()
 
-tb_name = args.tb
-rtl_name = args.rtl if args.rtl else tb_name.replace('_tb', '')
+tb = args.tb
+if tb:
+    tb_type, tb_name = tb.split('/')
+
+src_program = args.add_program_binary if args.add_program_binary else None
+
+rtl = args.rtl
+if rtl:
+    rtl_type, rtl_name = rtl.split('/')
 
 # === Paths ===
-tb_file = f"testbench/basic/{tb_name}.v"
-rtl_file = f"rtl/alu/{rtl_name}.v"
+tb_file = f"testbench/{tb_type}/{tb_name}.v"
+rtl_file = f"rtl/{rtl_type}/{rtl_name}.v"
 sim_out = f"sim/runs/{tb_name}"
 vcd_file = f"sim/waves/{rtl_name}.vcd"
+
+if src_program:
+    sw_program_bin_file = f"/mnt/c/Users/prana/Documents/ripes_programs/{src_program}.bin"
+    sw_program_src_file = f"/mnt/c/Users/prana/Documents/ripes_programs/{src_program}.s"
+    sw_program_bin_dest = "sw/bin"
+    sw_program_src_dest = "sw/src"
 
 # === Directory Setup ===
 Path("sim/runs").mkdir(parents=True, exist_ok=True)
@@ -41,7 +56,21 @@ if args.clean:
 # === Run Rule ===
 def compile_and_simulate():
     print(f"[1/3] Compiling {tb_file} and {rtl_file}")
-    subprocess.run(["iverilog", "-o", sim_out, tb_file, rtl_file], check=True)
+
+     # Collect all .v files from rtl/ and subdirectories
+    rtl_dir = "rtl"
+    verilog_files = []
+    for root, _, files in os.walk(rtl_dir):
+        for file in files:
+            if file.endswith(".v"):
+                full_path = os.path.join(root, file)
+                # Exclude rtl_file and tb_file
+                if os.path.abspath(full_path) not in (
+                    os.path.abspath(rtl_file), os.path.abspath(tb_file)
+                ):
+                    verilog_files.append(full_path)
+
+    subprocess.run(["iverilog", "-o", sim_out, tb_file, rtl_file] + verilog_files, check=True)
 
     print(f"[2/3] Simulating {sim_out}")
     subprocess.run(["vvp", sim_out], check=True)
@@ -59,6 +88,10 @@ elif args.run:
     compile_and_simulate()
 elif args.wave:
     open_waveform()
+elif src_program:
+    print(f"Args program binary: {src_program}")
+    subprocess.run(["cp", sw_program_bin_file, sw_program_bin_dest])
+    subprocess.run(["cp", sw_program_src_file, sw_program_src_dest])
 else:
     print(
         f"""🛠️  Usage: python3 run.py [options]
