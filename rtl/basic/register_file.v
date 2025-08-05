@@ -26,7 +26,7 @@ always @(posedge clk) begin
             regfile[i] <= {DATA_WIDTH{1'b0}};
     end
     else begin
-        if (write_enable && rd != 0)
+        if (write_enable && rd != 0) 
             regfile[rd] <= write_data;
     end
 end

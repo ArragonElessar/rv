@@ -6,10 +6,13 @@ module data_mem #(
     input wire cs_mem_write,
     input wire [DATA_WIDTH-1:0] write_data,
     input wire [DATA_WIDTH-1:0] addr,
-    output reg [DATA_WIDTH-1:0] read_data
+    output [DATA_WIDTH-1:0] read_data
 );
 
 reg [DATA_WIDTH-1:0] memory [0:MEM_DEPTH-1];
+
+// Word address from byte address
+wire [$clog2(MEM_DEPTH)-1:0] data_addr = addr[DATA_WIDTH-1:2];  // addr >> 2
 
 integer i;
 initial begin
@@ -17,19 +20,13 @@ initial begin
         memory[i] = {DATA_WIDTH{1'b0}};
 end
 
-// Handling Address overflow
-wire data_addr = addr < MEM_DEPTH ? addr : 0;
-
 always @(posedge clk) begin
-
-    // write first
     if (cs_mem_write) begin
         memory[data_addr] <= write_data;
-    end
-
-    // then read
-    read_data <= memory[data_addr];
-
+    end 
 end
+
+assign read_data = memory[data_addr];
+
 
 endmodule
