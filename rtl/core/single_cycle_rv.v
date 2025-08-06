@@ -86,7 +86,6 @@ cu_single_cycle cu_sc (
 wire [31:0] rs1_data, rs2_data;
 register_file rf (
     .clk(clk),
-    .rst_n(rst_n),
     .write_enable(cs_reg_write),
     .rs1(rs1),
     .rs2(rs2),

@@ -28,7 +28,7 @@ module single_cycle_rv_tb;
         #30;
         rst_n = 1;
 
-        for( i = 0; i < 36; i = i + 1) begin
+        for( i = 0; i < 75; i = i + 1) begin
             $display("\n[TB] Cycle:%02d", i);
             
             // Instruction Fetch Stage

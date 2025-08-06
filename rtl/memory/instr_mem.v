@@ -6,7 +6,7 @@ module instr_mem #(
     output [31:0] instr      // Instruction output
 );
 
-    localparam MEM_FILE = "sw/mem/loads_and_stores.mem";
+    localparam MEM_FILE = "sw/mem/fibonacci.mem";
 
     // Declare memory
     reg [31:0] memory [0:MEM_DEPTH-1];
